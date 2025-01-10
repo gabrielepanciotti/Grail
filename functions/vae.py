@@ -89,7 +89,7 @@ def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_traini
         for batch in dataloader:
             data = batch[0]
             mu, _ = model.encode(data)  # Solo la media nello spazio latente
-            reduced_data.append(mu.numpy())
+            reduced_data.append(mu.cpu().numpy())
             reduced_size += mu.numel()
 
     # Determina la lunghezza massima per uniformare le dimensioni
