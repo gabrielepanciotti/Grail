@@ -33,16 +33,16 @@ def reduce_with_clustering(data, n_clusters=50, kmeans_model=None):
     # Calcola il tempo impiegato
     reduction_time = time.time() - start_time
 
-    print(f"Clustering completato: {n_clusters} cluster formati.")
-    print(f"Inerzia dei cluster: {inertia:.4f}")
-    print(f"Tempo impiegato: {reduction_time:.4f} secondi")
-    print(f"Rapporto di compressione: {compression_ratio:.4f}")
-
     # Calcola il rapporto di compressione
     original_size = data.size  # Dimensione originale (numero totale di elementi)
     reduced_size = reduced_data.size  # Dimensione ridotta (numero totale di elementi)
     compression_ratio = reduced_size / original_size  # Rapporto di compressione
     
+    print(f"Clustering completato: {n_clusters} cluster formati.")
+    print(f"Inerzia dei cluster: {inertia:.4f}")
+    print(f"Tempo impiegato: {reduction_time:.4f} secondi")
+    print(f"Rapporto di compressione: {compression_ratio:.4f}")
+
     return reduced_data, inertia, reduction_time, compression_ratio, kmeans_model
 
 def prepare_cluster_data(reduced_data, labels, batch_size=32):
