@@ -1,0 +1,20 @@
+# Ignora l'ambiente virtuale
+env/
+venv/
+new_env/
+
+# Ignora file temporanei
+*.pyc
+__pycache__/
+
+# Ignora file di configurazione
+.vscode/
+.vs/
+.idea/
+
+# Altri file
+*.log
+*.swp
+
+# Dataset troppo grandi
+dataset/
