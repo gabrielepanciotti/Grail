@@ -1,10 +1,10 @@
 # Percorso al file del dataset
 #file_path = 'dataset_1_merged_withTarget.csv'
-file_path = 'dataset/reduce_dataset.csv'
+file_path = 'dataset/reduced_dataset.csv'
 # Percorso al file del dataset
 #train_file = 'dataset_1_merged_withTarget.csv'
-train_file = 'dataset/reduce_dataset.csv'
-test_file = 'dataset/reduce_dataset_test.csv'
+train_file = 'dataset/reduced_dataset.csv'
+test_file = 'dataset/reduced_dataset_test.csv'
 batch_size = 32
 latent_dim = 16
 pca_components = 50  # Numero di componenti PCA
