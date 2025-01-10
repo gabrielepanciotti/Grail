@@ -53,7 +53,7 @@ for method, reducer in reduction_methods.items():
         reduced_label_train, reduced_label_test = train_labels, test_labels
     else:  # Clustering
         reduced_train, inertia, reduction_time_train, compression_ratio_train, kmeans_model = reducer(train_data.values, n_clusters=n_clusters)
-        reduced_test, compression_ratio_test, reduction_time_test, _ = reducer(test_data.values, kmeans_model=kmeans_model)
+        reduced_test, _, reduction_time_test, compression_ratio_test, _ = reducer(test_data.values, kmeans_model=kmeans_model)
         reduced_label_train, reduced_label_test = train_labels, test_labels
 
     # Salva i risultati della riduzione in file separati
