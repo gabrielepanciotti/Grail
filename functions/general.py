@@ -3,6 +3,8 @@ from config.constants import *
 from functions.points_cloud import *
 from functions.vae import *
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 def load_data(file_path):
     """
     Carica i dati del dataset dal file specificato, escludendo 'incident_energy' e 'target'.
@@ -37,7 +39,7 @@ def prepare_data(file_path, batch_size=64):
     raw_array = numeric_data.to_numpy()
     
     # Converte in tensore PyTorch
-    raw_tensor = torch.tensor(raw_array, dtype=torch.float32)
+    raw_tensor = torch.tensor(raw_array, dtype=torch.float32).to(device)
     
     # Crea il dataset e il dataloader
     dataset = TensorDataset(raw_tensor)
