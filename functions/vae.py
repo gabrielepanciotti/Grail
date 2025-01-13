@@ -110,7 +110,6 @@ def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_traini
     compression_ratio = reduced_size / original_data_size
 
     print(f"VAE - Tempo: {reduction_time:.4f}s, Compressione: {compression_ratio:.4f}")
-    print(f"Forma finale di reduced_data: {reduced_data.shape}")
 
     return reduced_data, compression_ratio, reduction_time
 
