@@ -21,10 +21,10 @@ test_data = test_data.drop(columns=["incident_energy", "target"])
 scaler = MinMaxScaler()
 
 # "Fitta" lo scaler sui dati di train e trasforma
-train_data_scaled = scaler.fit_transform(train_data)
+train_data = scaler.fit_transform(train_data)
 
 # Trasforma i dati di test con lo stesso scaler (senza rifittare!)
-test_data_scaled = scaler.transform(test_data)
+test_data = scaler.transform(test_data)
 
 # 2. Applicazione delle tecniche di riduzione
 reduction_results = []
