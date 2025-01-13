@@ -9,9 +9,9 @@ cnn_results = []
 
 # Dizionario dei metodi di riduzione
 reduction_methods = [
-    #"Point Cloud", 
-    #"PCA", 
-    #"Clustering", 
+    "Point Cloud", 
+    "PCA", 
+    "Clustering", 
     "VAE"]
 
 # 1. Loop su ogni metodo di riduzione
