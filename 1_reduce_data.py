@@ -57,7 +57,7 @@ for method, reducer in reduction_methods.items():
         reduced_label_train, reduced_label_test = train_labels, test_labels
 
     if len(reduced_train) != len(reduced_label_train):
-        raise ValueError(f"Mismatch tra dati ridotti ({reduced_train.shape[0]}) ed etichette ({len(train_labels)}).")
+        raise ValueError(f"Mismatch tra dati ridotti ({len(reduced_train)}) ed etichette ({len(train_labels)}).")
 
     # Converti eventuali tensori in NumPy
     if isinstance(reduced_train, torch.Tensor):
