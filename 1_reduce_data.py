@@ -17,6 +17,15 @@ test_labels = test_data["target"]
 train_data = train_data.drop(columns=["incident_energy", "target"])
 test_data = test_data.drop(columns=["incident_energy", "target"])
 
+# 3. Applico il MinMaxScaler per portare i dati in [0,1]
+scaler = MinMaxScaler()
+
+# "Fitta" lo scaler sui dati di train e trasforma
+train_data_scaled = scaler.fit_transform(train_data)
+
+# Trasforma i dati di test con lo stesso scaler (senza rifittare!)
+test_data_scaled = scaler.transform(test_data)
+
 # 2. Applicazione delle tecniche di riduzione
 reduction_results = []
 

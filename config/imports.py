@@ -32,3 +32,5 @@ from torch_geometric.nn import GCNConv, global_mean_pool
 import torch.nn.functional as F
 
 from contextlib import nullcontext
+from sklearn.preprocessing import MinMaxScaler
+

@@ -3,24 +3,28 @@ from config.constants import *
 
 # Definizione del VAE
 class VariationalAutoencoder(nn.Module):
-    def __init__(self, input_dim, latent_dim):
+    def __init__(self, input_dim, latent_dim, clamp_logvar=(-4, 4)):
         super(VariationalAutoencoder, self).__init__()
+        self.clamp_logvar = clamp_logvar
+        
         self.encoder = nn.Sequential(
             nn.Linear(input_dim, 256),
             nn.ReLU(),
             nn.Linear(256, 128),
             nn.ReLU()
         )
-        self.mu = nn.Linear(128, latent_dim)  # Per la media
-        self.logvar = nn.Linear(128, latent_dim)  # Per il log della varianza
+        self.mu = nn.Linear(128, latent_dim)      # Per la media
+        self.logvar = nn.Linear(128, latent_dim)  # Per il log(varianza)
 
+        # Se i tuoi dati sono in [0,1], allora Sigmoid() va bene;
+        # Altrimenti sostituisci con nn.Identity() o un'altra attivazione
         self.decoder = nn.Sequential(
             nn.Linear(latent_dim, 128),
             nn.ReLU(),
             nn.Linear(128, 256),
             nn.ReLU(),
             nn.Linear(256, input_dim),
-            nn.Sigmoid()  # Poiché i dati sono valori normalizzati
+            nn.Sigmoid()
         )
 
     def encode(self, x):
