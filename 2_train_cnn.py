@@ -34,7 +34,7 @@ for method in reduction_methods:
         train_loader = prepare_point_cloud_data(
             reduced_train, train_labels, batch_size=batch_size, max_length=max_length
         )
-        test_loader, _ = prepare_point_cloud_data(
+        test_loader = prepare_point_cloud_data(
             reduced_test, test_labels, batch_size=batch_size, max_length=max_length
         )
         input_dim = max_length
