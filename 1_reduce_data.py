@@ -17,6 +17,10 @@ test_labels = test_data["target"]
 train_data = train_data.drop(columns=["incident_energy", "target"])
 test_data = test_data.drop(columns=["incident_energy", "target"])
 
+# Salviamo le colonne per ricostruire il DataFrame dopo lo scaling
+train_columns = train_data.columns
+test_columns = test_data.columns
+
 # 3. Applico il MinMaxScaler per portare i dati in [0,1]
 scaler = MinMaxScaler()
 
@@ -25,6 +29,10 @@ train_data = scaler.fit_transform(train_data)
 
 # Trasforma i dati di test con lo stesso scaler (senza rifittare!)
 test_data = scaler.transform(test_data)
+
+# Ricostruisco il DataFrame in modo da poter utilizzare .values
+train_data = pd.DataFrame(train_data, columns=train_columns)
+test_data = pd.DataFrame(test_data, columns=test_columns)
 
 # 2. Applicazione delle tecniche di riduzione
 reduction_results = []
