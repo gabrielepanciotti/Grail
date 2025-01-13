@@ -83,6 +83,7 @@ def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_traini
 
     reduced_data = []
     reduced_size = 0
+    total_processed = 0
 
     model.eval()  # Modalità di valutazione
     with torch.no_grad() if not is_training else nullcontext():
@@ -91,6 +92,11 @@ def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_traini
             mu, _ = model.encode(data)  # Solo la media nello spazio latente
             reduced_data.append(mu.cpu().numpy())
             reduced_size += mu.numel()
+            total_processed += data.size(0)  # Conta il numero di elementi nel batch
+
+    print(f"Dati processati: {total_processed}, Attesi: {len(dataloader.dataset)}")
+    if total_processed != len(dataloader.dataset):
+        raise ValueError(f"Mismatch tra dati processati ({total_processed}) e dataset ({len(dataloader.dataset)}).")
 
     # Determina la lunghezza massima per uniformare le dimensioni
     max_length = max(len(item.flatten()) for item in reduced_data)

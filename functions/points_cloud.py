@@ -154,6 +154,7 @@ def prepare_point_cloud_data(reduced_data, labels, batch_size=32, max_length=Non
     # Determina la lunghezza massima
     if max_length is None:
         max_length = max(len(cloud.flatten()) for cloud in reduced_data)
+
     # Normalizza la dimensione delle point cloud
     normalized_data = []
     for cloud in reduced_data:
@@ -166,8 +167,8 @@ def prepare_point_cloud_data(reduced_data, labels, batch_size=32, max_length=Non
             padded_cloud = flattened_cloud[:max_length]
         normalized_data.append(padded_cloud)
 
-    input_dim = len(normalized_data)
-    # Converti in tensori
+    # Converti la lista in un array NumPy e poi in tensori PyTorch
+    normalized_data = np.array(normalized_data, dtype=np.float32)  # Conversione in array NumPy
     tensor_data = torch.tensor(normalized_data, dtype=torch.float32)
     tensor_labels = torch.tensor(labels, dtype=torch.long)
 
