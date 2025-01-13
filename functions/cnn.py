@@ -19,7 +19,7 @@ class ParticleCNN(nn.Module):
         x = self.fc2(x)
         return x
     
-def train_cnn(model, train_dataloader, test_dataloader, num_epochs=30, lr=0.001):
+def train_cnn(model, train_dataloader, test_dataloader, num_epochs=30, lr=0.001, device='cuda'):
     """
     Addestra il modello CNN sui dati ridotti.
 
@@ -29,11 +29,13 @@ def train_cnn(model, train_dataloader, test_dataloader, num_epochs=30, lr=0.001)
         test_dataloader (DataLoader): Dati di test.
         num_epochs (int): Numero di epoche per l'addestramento.
         lr (float): Tasso di apprendimento.
+        device (str): Dispositivo da utilizzare ("cuda" o "cpu").
 
     Returns:
         model (nn.Module): Modello addestrato.
         history (list): Storico delle perdite di addestramento.
     """
+    model.to(device)  # Sposta il modello sul dispositivo
     optimizer = optim.Adam(model.parameters(), lr=lr)
     criterion = nn.CrossEntropyLoss()
 
@@ -43,6 +45,7 @@ def train_cnn(model, train_dataloader, test_dataloader, num_epochs=30, lr=0.001)
         epoch_loss = 0
         for batch in train_dataloader:
             inputs, labels = batch
+            inputs, labels = inputs.to(device), labels.to(device)  # Sposta gli input sul dispositivo
             optimizer.zero_grad()
             outputs = model(inputs)
             loss = criterion(outputs, labels)
@@ -54,17 +57,18 @@ def train_cnn(model, train_dataloader, test_dataloader, num_epochs=30, lr=0.001)
         print(f"Epoch {epoch + 1}/{num_epochs}, Loss: {epoch_loss:.4f}")
 
         # Valutazione sul set di test
-        evaluate_cnn(model, test_dataloader)
+        evaluate_cnn(model, test_dataloader, device=device)
 
     return model, history
 
-def evaluate_cnn(model, test_dataloader):
+def evaluate_cnn(model, test_dataloader, device='cuda'):
     """
     Valuta la CNN sul set di test.
 
     Args:
         model (nn.Module): Modello CNN addestrato.
         test_dataloader (DataLoader): Dati di test.
+        device (str): Dispositivo da utilizzare ("cuda" o "cpu").
     """
     model.eval()
     all_preds = []
@@ -73,10 +77,11 @@ def evaluate_cnn(model, test_dataloader):
     with torch.no_grad():
         for batch in test_dataloader:
             inputs, labels = batch
+            inputs, labels = inputs.to(device), labels.to(device)  # Sposta gli input sul dispositivo
             outputs = model(inputs)
             preds = torch.argmax(outputs, dim=1)
-            all_preds.extend(preds.numpy())
-            all_labels.extend(labels.numpy())
+            all_preds.extend(preds.cpu().numpy())  # Sposta su CPU per l'elaborazione
+            all_labels.extend(labels.cpu().numpy())
 
     accuracy = accuracy_score(all_labels, all_preds)
     print(f"Accuracy: {accuracy:.4f}")

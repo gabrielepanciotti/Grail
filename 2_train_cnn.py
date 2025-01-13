@@ -2,6 +2,8 @@ from config.imports import *
 from config.constants import *
 from functions import *
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 # Risultati per la tabella riassuntiva
 cnn_results = []
 
@@ -53,7 +55,7 @@ for method in reduction_methods:
 
     # Addestramento della CNN
     print(f"Addestramento della CNN per metodo: {method}")
-    cnn_model = ParticleCNN(input_dim=input_dim, num_classes=2)
+    cnn_model = ParticleCNN(input_dim=input_dim, num_classes=2).to(device)
     cnn_start = time.time()
     cnn_model, cnn_train_history = train_cnn(cnn_model, train_loader, test_loader, num_epochs=5)
     cnn_end = time.time()
