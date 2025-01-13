@@ -29,7 +29,13 @@ class VariationalAutoencoder(nn.Module):
 
     def encode(self, x):
         h = self.encoder(x)
-        return self.mu(h), self.logvar(h)
+        mu = self.mu(h)
+        logvar = self.logvar(h)
+        
+        # Clamping per evitare che logvar vada a +/- infinito
+        min_logvar, max_logvar = self.clamp_logvar
+        logvar = torch.clamp(logvar, min_logvar, max_logvar)
+        return mu, logvar
 
     def reparameterize(self, mu, logvar):
         std = torch.exp(0.5 * logvar)
@@ -46,24 +52,42 @@ class VariationalAutoencoder(nn.Module):
 
 # Funzione di perdita (VAE)
 def vae_loss(reconstructed, original, mu, logvar):
+    # Ricostruzione con MSE
     recon_loss = nn.MSELoss()(reconstructed, original)
+    # KL Divergence
     kl_divergence = -0.5 * torch.sum(1 + logvar - mu.pow(2) - logvar.exp())
-    return recon_loss + kl_divergence / original.size(0)
+    # Divisione per il batch_size
+    kl_divergence = kl_divergence / original.size(0) 
+    # Loss totale
+    loss = recon_loss + kl_divergence
 
-# Addestramento del VAE
-def train_vae(model, dataloader, epochs=50, lr=1e-3):
+    return loss
+
+# Addestramento del VAE con LR ridotto
+def train_vae(model, dataloader, epochs=50, lr=1e-4):
     optimizer = optim.Adam(model.parameters(), lr=lr)
+    model.train()
+    
     for epoch in range(epochs):
-        total_loss = 0
+        total_loss = 0.0
         for data in dataloader:
-            batch = data[0]
-            optimizer.zero_grad()
+            batch = data[0]  # shape: (batch_size, input_dim)
+            optimizer.zero_grad()           
             reconstructed, mu, logvar = model(batch)
+            
+            # Controllo debug su eventuali NaN
+            if torch.isnan(mu).any() or torch.isnan(logvar).any():
+                print("ATTENZIONE: mu/logvar contengono NaN, epoch:", epoch+1)
+            
             loss = vae_loss(reconstructed, batch, mu, logvar)
+            if torch.isnan(loss):
+                print("ATTENZIONE: Loss è NaN all'epoch", epoch+1)
+            
             loss.backward()
             optimizer.step()
             total_loss += loss.item()
-        print(f"Epoch {epoch + 1}/{epochs}, Loss: {total_loss:.4f}")
+        
+        print(f"Epoch {epoch+1}/{epochs}, Loss: {total_loss:.4f}")
     return model
 
 def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_training=False):

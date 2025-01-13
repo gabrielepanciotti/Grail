@@ -8,7 +8,11 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 cnn_results = []
 
 # Dizionario dei metodi di riduzione
-reduction_methods = ["Point Cloud", "PCA", "Clustering", "VAE"]
+reduction_methods = [
+    #"Point Cloud", 
+    #"PCA", 
+    #"Clustering", 
+    "VAE"]
 
 # 1. Loop su ogni metodo di riduzione
 for method in reduction_methods:

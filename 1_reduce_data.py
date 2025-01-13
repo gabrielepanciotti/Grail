@@ -38,10 +38,10 @@ test_data = pd.DataFrame(test_data, columns=test_columns)
 reduction_results = []
 
 reduction_methods = {
-    "PCA": reduce_with_pca,
-    "Clustering": reduce_with_clustering,
+    #"PCA": reduce_with_pca,
+    #"Clustering": reduce_with_clustering,
     "VAE": reduce_with_vae,
-    "Point Cloud": reduce_with_point_cloud,
+    #"Point Cloud": reduce_with_point_cloud,
 }
 
 for method, reducer in reduction_methods.items():
@@ -56,11 +56,11 @@ for method, reducer in reduction_methods.items():
         vae_model = VariationalAutoencoder(input_dim=train_data.shape[1], latent_dim=latent_dim).to(device)
         vae_model = train_vae(vae_model, dataloader_train)
 
-        reduced_train, compression_ratio_train, reduction_time_train = reduce_with_vae(
+        reduced_train, compression_ratio_train, reduction_time_train = reducer(
             vae_model, dataloader_train, latent_dim, original_data_size=train_data.values.size
         )
         dataloader_test = prepare_data(test_file, batch_size=batch_size)
-        reduced_test, compression_ratio_test, reduction_time_test = reduce_with_vae(
+        reduced_test, compression_ratio_test, reduction_time_test = reducer(
             vae_model, dataloader_test, latent_dim, original_data_size=test_data.values.size
         )
         reduced_label_train, reduced_label_test = train_labels, test_labels
