@@ -168,8 +168,8 @@ def prepare_point_cloud_data(reduced_data, labels, batch_size=32, max_length=Non
 
     input_dim = len(normalized_data)
     # Converti in tensori
-    tensor_data = torch.tensor(normalized_data, dtype=torch.float32).to(device)
-    tensor_labels = torch.tensor(labels, dtype=torch.long).to(device)
+    tensor_data = torch.tensor(normalized_data, dtype=torch.float32)
+    tensor_labels = torch.tensor(labels, dtype=torch.long)
 
     # Crea il DataLoader
     dataset = TensorDataset(tensor_data, tensor_labels)
