@@ -10,8 +10,8 @@ cnn_results = []
 # Dizionario dei metodi di riduzione e relative funzioni di preparazione
 reduction_methods = {
     "Point Cloud": prepare_point_cloud_data,
-    "PCA": prepare_pca_data,
-    "Clustering": prepare_cluster_data,
+    #"PCA": prepare_pca_data,
+    #"Clustering": prepare_cluster_data,
     # "VAE": prepare_vae_data  # Se volessi reinserire il VAE
 }
 

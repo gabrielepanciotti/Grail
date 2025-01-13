@@ -38,8 +38,8 @@ test_data = pd.DataFrame(test_data, columns=test_columns)
 reduction_results = []
 
 reduction_methods = {
-    "PCA": reduce_with_pca,
-    "Clustering": reduce_with_clustering,
+    #"PCA": reduce_with_pca,
+    #"Clustering": reduce_with_clustering,
     #"VAE": reduce_with_vae,
     "Point Cloud": reduce_with_point_cloud,
 }
