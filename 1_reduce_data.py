@@ -37,7 +37,7 @@ for method, reducer in reduction_methods.items():
     elif method == "VAE":
         dataloader_train = prepare_data(train_file, batch_size=batch_size)
         vae_model = VariationalAutoencoder(input_dim=train_data.shape[1], latent_dim=latent_dim).to(device)
-        vae_model = train_vae(vae_model, dataloader_train, epochs=10)
+        vae_model = train_vae(vae_model, dataloader_train)
 
         reduced_train, compression_ratio_train, reduction_time_train = reduce_with_vae(
             vae_model, dataloader_train, latent_dim, original_data_size=train_data.values.size
