@@ -98,19 +98,18 @@ def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_traini
     if total_processed != len(dataloader.dataset):
         raise ValueError(f"Mismatch tra dati processati ({total_processed}) e dataset ({len(dataloader.dataset)}).")
 
-    try:
         # Determina la lunghezza massima per uniformare le dimensioni
-        max_length = max(len(item.flatten()) for item in reduced_data)
-
-        # Uniforma la dimensione dei dati ridotti
-        reduced_data = np.array([
-            np.pad(item.flatten(), (0, max_length - len(item.flatten())), mode='constant')
-            if len(item.flatten()) < max_length
-            else item.flatten()[:max_length]
-            for item in reduced_data
-        ])
-    except Exception as e:
-        raise RuntimeError(f"Errore durante l'uniformazione dei dati ridotti: {e}")
+    max_length = max(len(item.flatten()) for item in reduced_data)
+    # Crea una lista di array uniformi
+    uniform_data = []
+    for item in reduced_data:
+        flattened_item = item.flatten()
+        if len(flattened_item) < max_length:
+            padded_item = np.pad(flattened_item, (0, max_length - len(flattened_item)), mode='constant')
+        else:
+            padded_item = flattened_item[:max_length]
+        uniform_data.append(padded_item)
+        
     # Calcola il tempo di riduzione e il rapporto di compressione
     reduction_time = time.time() - start_time
     compression_ratio = reduced_size / original_data_size
