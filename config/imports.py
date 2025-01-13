@@ -30,3 +30,5 @@ from torch_geometric.nn import GCNConv, global_mean_pool
 
 # **Funzioni di utilità PyTorch**
 import torch.nn.functional as F
+
+from contextlib import nullcontext
