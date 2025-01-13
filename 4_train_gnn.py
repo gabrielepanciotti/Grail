@@ -3,7 +3,12 @@ from config.constants import *
 from functions import *
 
 # Caricamento dei grafi
-reduction_methods = ["Point Cloud", "PCA", "Clustering", "VAE"]
+reduction_methods = [
+    "Point Cloud", 
+    "PCA", 
+    "Clustering" 
+    #"VAE"
+    ]
 results = []
 
 for method in reduction_methods:

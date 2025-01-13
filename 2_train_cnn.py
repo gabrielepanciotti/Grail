@@ -78,4 +78,4 @@ cnn_results_df = pd.DataFrame(cnn_results)
 print("\nRisultati Addestramento CNN:\n", cnn_results_df)
 
 # Salva i risultati in un file CSV
-cnn_results_df.to_csv("cnn_results.csv", index=False)
+cnn_results_df.to_csv("results/cnn_results.csv", index=False)
