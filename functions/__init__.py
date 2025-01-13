@@ -1,6 +1,7 @@
 from .points_cloud import *
 from .graphs import *
 from .gnn import *
+from .cnn import *
 from .vae import *
 from .general import *
 from .clustering import *

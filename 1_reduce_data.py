@@ -66,6 +66,15 @@ for method, reducer in reduction_methods.items():
     if isinstance(reduced_label_test, torch.Tensor):
         reduced_label_test = reduced_label_test.cpu().numpy()
 
+    # Controllo e conversione in NumPy per point clouds
+    if isinstance(reduced_train, list):  # Nel caso delle point cloud è una lista di tensori
+        reduced_train = [cloud.cpu().numpy() if isinstance(cloud, torch.Tensor) else cloud for cloud in reduced_train]
+        reduced_train = np.array(reduced_train, dtype=object)  # Usa un array di oggetti per liste di diversa lunghezza
+
+    if isinstance(reduced_test, list):  # Stesso controllo per il test set
+        reduced_test = [cloud.cpu().numpy() if isinstance(cloud, torch.Tensor) else cloud for cloud in reduced_test]
+        reduced_test = np.array(reduced_test, dtype=object)
+
     # Salva i risultati della riduzione in file separati
     np.savez_compressed(f"reduced_train_{method}.npz", data=reduced_train, labels=reduced_label_train)
     np.savez_compressed(f"reduced_test_{method}.npz", data=reduced_test, labels=reduced_label_test)
