@@ -110,4 +110,4 @@ reduction_results_df = pd.DataFrame(reduction_results)
 print("\nRisultati Riduzione:\n", reduction_results_df)
 
 # Salva il confronto in un file CSV
-reduction_results_df.to_csv("results/reduction_results.csv", index=False)
+reduction_results_df.to_csv("results/reduction_results_point.csv", index=False)
