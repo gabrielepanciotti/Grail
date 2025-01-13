@@ -81,43 +81,37 @@ def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_traini
     """
     start_time = time.time()
 
-    reduced_data = []
-    reduced_size = 0
-    total_processed = 0
+    model.eval()
+    all_latent = []
 
-    model.eval()  # Modalità di valutazione
+    # Disabilita il calcolo del gradiente se non siamo in training
     with torch.no_grad() if not is_training else nullcontext():
         for batch in dataloader:
-            data = batch[0]
-            mu, _ = model.encode(data)  # Solo la media nello spazio latente
-            reduced_data.append(mu.cpu().numpy())
-            reduced_size += mu.numel()
-            total_processed += data.size(0)  # Conta il numero di elementi nel batch
+            data = batch[0]  # shape: (batch_size, input_dim)
+            mu, _ = model.encode(data)  # shape: (batch_size, latent_dim)
+            all_latent.append(mu.cpu().numpy())
 
-    print(f"Dati processati: {total_processed}, Attesi: {len(dataloader.dataset)}")
+    # Concateniamo i batch lungo la dimensione 0
+    # Così otteniamo un array di shape (numero_campioni, latent_dim)
+    reduced_data = np.concatenate(all_latent, axis=0)
+
+    # Check sul numero di campioni processati
+    total_processed = reduced_data.shape[0]
     if total_processed != len(dataloader.dataset):
-        raise ValueError(f"Mismatch tra dati processati ({total_processed}) e dataset ({len(dataloader.dataset)}).")
+        raise ValueError(
+            f"Mismatch tra dati processati ({total_processed}) e dataset ({len(dataloader.dataset)})."
+        )
 
-        # Determina la lunghezza massima per uniformare le dimensioni
-    max_length = max(item.size for item in reduced_data)
-    # Crea una lista di array uniformi
-    uniform_data = []
-    for item in reduced_data:
-        flattened_item = item.flatten()
-        if len(flattened_item) < max_length:
-            padded_item = np.pad(flattened_item, (0, max_length - len(flattened_item)), mode='constant')
-        else:
-            padded_item = flattened_item[:max_length]
-        uniform_data.append(padded_item)
-
-    # Converti la lista in un array NumPy esplicito
-    reduced_data = np.vstack(uniform_data)
-
-    # Calcola il tempo di riduzione e il rapporto di compressione
+    # Calcolo del tempo e del rapporto di compressione
     reduction_time = time.time() - start_time
+    # Nel VAE, la dimensione "latente totale" è total_processed * latent_dim
+    # (che è la dimensione ridotta effettiva)
+    reduced_size = total_processed * latent_dim
     compression_ratio = reduced_size / original_data_size
 
     print(f"VAE - Tempo: {reduction_time:.4f}s, Compressione: {compression_ratio:.4f}")
+    print(f"Forma finale di reduced_data: {reduced_data.shape}")
+
     return reduced_data, compression_ratio, reduction_time
 
 def prepare_vae_data(reduced_data, labels, batch_size=32):
