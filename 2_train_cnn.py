@@ -17,8 +17,8 @@ for method in reduction_methods:
     test_data_file = f"reduced_test_{method}.npz"
 
     # Caricamento dei dati
-    train_data = np.load(train_data_file)
-    test_data = np.load(test_data_file)
+    train_data = np.load(train_data_file, allow_pickle=True)  # Abilita allow_pickle
+    test_data = np.load(test_data_file, allow_pickle=True)    # Abilita allow_pickle
 
     reduced_train = train_data["data"]
     train_labels = train_data["labels"]
