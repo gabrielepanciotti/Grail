@@ -1,13 +1,6 @@
-########################################
-# vae.py
-########################################
-
 from config.imports import *
 from config.constants import *
 
-# ==============================================================================
-#                           DEFINIZIONE DEL VAE
-# ==============================================================================
 class VariationalAutoencoder(nn.Module):
     def __init__(self, input_dim, latent_dim=4, clamp_logvar=(-4, 4), use_sigmoid=True):
         """
@@ -84,9 +77,6 @@ class VariationalAutoencoder(nn.Module):
         reconstructed = self.decode(z)
         return reconstructed, mu, logvar
 
-# ==============================================================================
-#                           FUNZIONE DI PERDITA
-# ==============================================================================
 def vae_loss(reconstructed, original, mu, logvar, beta=1.0):
     """
     Calcola Recon Loss (MSE) + beta * KL Divergence.
@@ -103,9 +93,6 @@ def vae_loss(reconstructed, original, mu, logvar, beta=1.0):
     loss = recon_loss + beta * kl_div
     return loss, recon_loss, kl_div
 
-# ==============================================================================
-#                           TRAINING DEL VAE
-# ==============================================================================
 def train_vae(model, dataloader, epochs=30, lr=1e-5, beta=0.001):
     """
     Addestra il VAE per un certo numero di epoche.
@@ -160,9 +147,6 @@ def train_vae(model, dataloader, epochs=30, lr=1e-5, beta=0.001):
     
     return model
 
-# ==============================================================================
-#                           RIDUZIONE (ENCODE) CON VAE
-# ==============================================================================
 def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_training=False):
     """
     Riduce i dati utilizzando un VAE addestrato, misura le prestazioni,
@@ -196,9 +180,6 @@ def reduce_with_vae(model, dataloader, latent_dim, original_data_size, is_traini
     print(f"[reduce_with_vae] Tempo: {reduction_time:.4f}s, Compressione: {compression_ratio:.4f}")
     return reduced_data, compression_ratio, reduction_time
 
-# ==============================================================================
-#                           DATA PREPARATION PER IL VAE
-# ==============================================================================
 def prepare_vae_data(reduced_data, labels, batch_size=32):
     """
     Converte i dati in tensori PyTorch (float32), li impacchetta
@@ -213,9 +194,6 @@ def prepare_vae_data(reduced_data, labels, batch_size=32):
     print(f"[prepare_vae_data] Creato DataLoader: {len(dataset)} campioni, batch_size={batch_size}")
     return loader
 
-# ==============================================================================
-#                           CONVERT TO GRAPH (OPZIONALE)
-# ==============================================================================
 def convert_vae_to_graph(vae_data, labels, k=5):
     """
     Converte i dati ridotti (VAE) in grafi (PyTorch Geometric).

@@ -11,8 +11,9 @@ cnn_results = []
 reduction_methods = [
     "Point Cloud", 
     "PCA", 
-    "Clustering", 
-    "VAE"]
+    "Clustering" 
+    #"VAE"
+    ]
 
 # 1. Loop su ogni metodo di riduzione
 for method in reduction_methods:
