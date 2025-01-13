@@ -124,13 +124,13 @@ def reduce_with_point_cloud(data, labels, threshold=0.1):
     labels = filtered_labels
     
     # Filtraggio basato sulla soglia
-    """reduced_point_clouds = []
+    reduced_point_clouds = []
     reduced_size = 0
     for cloud in point_clouds:
         if cloud.shape[0] > 0:
             filtered_cloud = cloud[cloud[:, 3] > threshold]  # Considera solo punti con energia > threshold
             reduced_point_clouds.append(filtered_cloud)
-            reduced_size += filtered_cloud.size"""
+            reduced_size += filtered_cloud.size
     
     # Calcolo della dimensione ridotta
     reduced_size = sum(cloud[:, 3].size for cloud in point_clouds)  # Conta solo i valori energetici validi
