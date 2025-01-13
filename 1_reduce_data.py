@@ -56,7 +56,7 @@ for method, reducer in reduction_methods.items():
         reduced_test, _, reduction_time_test, compression_ratio_test, _ = reducer(test_data.values, kmeans_model=kmeans_model)
         reduced_label_train, reduced_label_test = train_labels, test_labels
 
-        # Converti eventuali tensori in NumPy
+    # Converti eventuali tensori in NumPy
     if isinstance(reduced_train, torch.Tensor):
         reduced_train = reduced_train.cpu().numpy()
     if isinstance(reduced_test, torch.Tensor):
@@ -65,7 +65,7 @@ for method, reducer in reduction_methods.items():
         reduced_label_train = reduced_label_train.cpu().numpy()
     if isinstance(reduced_label_test, torch.Tensor):
         reduced_label_test = reduced_label_test.cpu().numpy()
-        
+
     # Salva i risultati della riduzione in file separati
     np.savez_compressed(f"reduced_train_{method}.npz", data=reduced_train, labels=reduced_label_train)
     np.savez_compressed(f"reduced_test_{method}.npz", data=reduced_test, labels=reduced_label_test)
