@@ -54,7 +54,7 @@ def visualize_all_graphs(graphs):
 
 
 # Funzione per processare tutte le point cloud e generare i grafi
-def process_point_clouds_to_graphs(point_clouds, k=5):
+def process_point_clouds_to_graphs(point_clouds, k=10):
     """
     Processa una lista di point cloud e crea una lista di grafi.
 
@@ -74,7 +74,7 @@ def process_point_clouds_to_graphs(point_clouds, k=5):
         graphs.append(graph)
     return graphs
 
-def process_point_clouds_to_graphs_with_labels(point_clouds, targets, k=5):
+def process_point_clouds_to_graphs_with_labels(point_clouds, targets, k=10):
     """
     Processa una lista di point cloud e crea una lista di grafi, aggiungendo le etichette.
 
@@ -191,7 +191,7 @@ def save_gnn_model(model, file_path):
     torch.save(model.state_dict(), file_path)
     print(f"Modello salvato in: {file_path}")
 
-def create_graph_from_point_cloud(point_cloud, k=5):
+def create_graph_from_point_cloud(point_cloud, k=10):
     """
     Crea un grafo a partire da una point cloud utilizzando il k-nearest neighbors.
 
@@ -206,7 +206,7 @@ def create_graph_from_point_cloud(point_cloud, k=5):
     spatial_coords = point_cloud[:, :3]
     
     # Adatta k al numero di nodi nella point cloud
-    k = min(k, spatial_coords.shape[0] - 1)  # k deve essere < numero di nodi
+    #k = min(k, spatial_coords.shape[0] - 1)  # k deve essere < numero di nodi
     
     if k <= 0:
         raise ValueError(f"Point cloud with insufficient points: {spatial_coords.shape[0]}")
