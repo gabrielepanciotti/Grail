@@ -64,6 +64,7 @@ for method, converter_func in graph_converters.items():
     graphs_test = converter_func(reduced_test, test_labels)
     for graph in graphs_train:
         print(f"Number of nodes: {graph.num_nodes}, Number of edges: {graph.num_edges}")
+    visualize_all_graphs(graphs_train)
 
     # 3. Salva i grafi
     torch.save((graphs_train, graphs_test), f"graphs/graphs_{method}.pt")
