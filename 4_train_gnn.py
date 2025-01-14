@@ -32,7 +32,7 @@ for method in reduction_methods:
     test_loader = DataLoader(graphs_test, batch_size=batch_size, shuffle=False, follow_batch=["x"])
 
     # Training del modello
-    train_gnn(gnn_model, train_loader, gnn_optimizer, epochs=5)
+    train_gnn(gnn_model, train_loader, gnn_optimizer, epochs=15)
 
     # Valutazione del modello
     gnn_accuracy = evaluate_gnn(gnn_model, test_loader)
