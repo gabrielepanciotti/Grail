@@ -7,9 +7,10 @@ import pandas as pd
 # **Visualizzazione**
 import matplotlib.pyplot as plt
 from matplotlib.colors import Normalize
+from matplotlib import cm
 
 # **Preprocessing**
-from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from sklearn.decomposition import PCA
 from sklearn.cluster import KMeans
 from sklearn.neighbors import kneighbors_graph
@@ -33,4 +34,5 @@ import torch.nn.functional as F
 
 from contextlib import nullcontext
 from sklearn.preprocessing import MinMaxScaler
+import networkx as nx
 

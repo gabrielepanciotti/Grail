@@ -54,7 +54,7 @@ def prepare_cluster_data(reduced_data, labels, batch_size=32):
     dataset = TensorDataset(tensor_data, tensor_labels)
     return DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
-def convert_clustering_to_graph(cluster_data, labels, k=5):
+def convert_clustering_to_graph(cluster_data, labels, k=50):
     """
     Converte i dati ridotti con clustering in grafi per l'utilizzo con GNN.
 
