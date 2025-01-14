@@ -1,7 +1,7 @@
 from config.imports import *
 from config.constants import *
 
-def visualize_graph(graph, title="Graph Visualization"):
+def visualize_graph(graph, title="Graph Visualization", save_path=None):
     """
     Visualizza un grafo usando NetworkX e Matplotlib.
 
@@ -40,19 +40,30 @@ def visualize_graph(graph, title="Graph Visualization"):
     # Titolo e layout
     ax.set_title(title)
     plt.axis("off")
+    # Salva il grafico su file, se richiesto
+    if save_path is not None:
+        plt.savefig(save_path, format="png", dpi=300)
+        print(f"Grafico salvato in: {save_path}")
+
     plt.show()
 
 
-def visualize_all_graphs(graphs):
+def visualize_all_graphs(graphs, output_dir="graphs_output"):
     """
-    Visualizza tutti i grafi in una lista utilizzando la funzione visualize_graph.
+    Visualizza e salva tutti i grafi in una lista utilizzando la funzione visualize_graph.
 
     Args:
         graphs (list of torch_geometric.data.Data): Lista di grafi PyTorch Geometric.
+        output_dir (str): Cartella in cui salvare i grafi. Default: "graphs_output".
     """
+    import os
+    os.makedirs(output_dir, exist_ok=True)
+
     for i, graph in enumerate(graphs):
-        print(f"Visualizzazione del grafo {i + 1}/{len(graphs)}:")
-        visualize_graph(graph, title=f"Grafo {i + 1}")
+        save_path = os.path.join(output_dir, f"graph_{i + 1}.png")
+        print(f"Visualizzazione e salvataggio del grafo {i + 1}/{len(graphs)}:")
+        visualize_graph(graph, title=f"Grafo {i + 1}", save_path=save_path)
+
 
 
 # Funzione per processare tutte le point cloud e generare i grafi
