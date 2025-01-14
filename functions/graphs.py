@@ -60,9 +60,10 @@ def visualize_all_graphs(graphs, output_dir="graphs_output"):
     os.makedirs(output_dir, exist_ok=True)
 
     for i, graph in enumerate(graphs):
-        save_path = os.path.join(output_dir, f"graph_{i + 1}.png")
-        print(f"Visualizzazione e salvataggio del grafo {i + 1}/{len(graphs)}:")
-        visualize_graph(graph, title=f"Grafo {i + 1}", save_path=save_path)
+        if i<50:
+            save_path = os.path.join(output_dir, f"graph_{i + 1}.png")
+            print(f"Visualizzazione e salvataggio del grafo {i + 1}/{len(graphs)}:")
+            visualize_graph(graph, title=f"Grafo {i + 1}", save_path=save_path)
 
 
 
