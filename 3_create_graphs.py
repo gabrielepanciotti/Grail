@@ -57,7 +57,6 @@ for method, converter_func in graph_converters.items():
         train_labels = train_data["labels"]
         reduced_test = test_data["data"]
         test_labels = test_data["labels"]
-
     
     # 2. Creazione dei grafi
     graphs_train = converter_func(reduced_train, train_labels)
