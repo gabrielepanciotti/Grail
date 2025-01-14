@@ -12,7 +12,7 @@ reduction_methods = [
 results = []
 
 for method in reduction_methods:
-    graphs_train, graphs_test = torch.load(f"graphs_{method}.pt")
+    graphs_train, graphs_test = torch.load(f"graphs/graphs_{method}.pt")
 
     # Training della GNN
     gnn_model = ParticleGNN(input_dim=graphs_train[0].x.shape[1], hidden_dim=64, output_dim=2)

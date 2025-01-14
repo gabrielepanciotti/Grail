@@ -32,5 +32,5 @@ for method, converter_func in graph_converters.items():
     graphs_test = converter_func(reduced_test, test_labels)
 
     # 3. Salva i grafi
-    torch.save((graphs_train, graphs_test), f"graphs_{method}.pt")
+    torch.save((graphs_train, graphs_test), f"graphs/graphs_{method}.pt")
     print(f"Grafi salvati in: graphs_{method}.pt")
