@@ -185,12 +185,28 @@ def convert_point_cloud_to_graph(point_clouds, labels, k=20):
     """
     graphs = []
     for i, cloud in enumerate(point_clouds):
+        if cloud.shape[0] < 2:
+            # Salta nuvole di punti con meno di 2 punti (non ha senso creare un grafo)
+            continue
+
+        # Adatta il numero di vicini k al numero di punti disponibili
+        adjusted_k = min(k, cloud.shape[0] - 1)
+
         spatial_coords = cloud[:, :3]  # Coordinate spaziali (layer, r, alpha)
-        edge_index = kneighbors_graph(spatial_coords, n_neighbors=k, mode='connectivity', include_self=False).tocoo()
+
+        # Crea il grafo KNN con il numero di vicini adattato
+        edge_index = kneighbors_graph(
+            spatial_coords, 
+            n_neighbors=adjusted_k, 
+            mode='connectivity', 
+            include_self=False
+        ).tocoo()
+
         edge_index = np.vstack((edge_index.row, edge_index.col))
         edge_index = torch.tensor(edge_index, dtype=torch.long).to(device)
 
-        node_features = torch.tensor(cloud[:, 3:], dtype=torch.float32).to(device)  # Energia come feature
+        # Usa l'energia come feature del nodo
+        node_features = torch.tensor(cloud[:, 3:], dtype=torch.float32).to(device)
         graph = Data(x=node_features, edge_index=edge_index, y=torch.tensor([labels[i]], dtype=torch.long)).to(device)
         graphs.append(graph)
     return graphs
