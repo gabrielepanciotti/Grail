@@ -24,11 +24,11 @@ class ParticleGNN(nn.Module):
         out = self.fc(x)
         return out
     
-def train_gnn(model, dataloader, optimizer, epochs=30):
+def train_gnn(model, train_loader, test_loader, optimizer, epochs=30):
     model.train()
     for epoch in range(epochs):
         total_loss = 0
-        for data in dataloader:
+        for data in train_loader:
             data = data.to(next(model.parameters()).device)  # Sposta i dati sullo stesso dispositivo del modello
             optimizer.zero_grad()
             out = model(data)  # Output a livello di grafo
@@ -37,6 +37,10 @@ def train_gnn(model, dataloader, optimizer, epochs=30):
             optimizer.step()
             total_loss += loss.item()
         print(f"Epoch {epoch + 1}/{epochs}, Loss: {total_loss:.4f}")
+        
+        # Valutazione del modello a ogni epoca
+        accuracy = evaluate_gnn(model, test_loader)
+        print(f"Epoch {epoch + 1}/{epochs}, Test Accuracy: {accuracy:.4f}")
 
 def evaluate_gnn(model, dataloader):
     model.eval()  # Imposta il modello in modalità di valutazione
@@ -50,5 +54,4 @@ def evaluate_gnn(model, dataloader):
             correct += (pred == data.y).sum().item()
             total += data.y.size(0)
     accuracy = correct / total
-    print(f"Accuracy: {accuracy:.4f}")
     return accuracy
