@@ -14,7 +14,8 @@ def visualize_graph(graph, title="Graph Visualization"):
     
     # Estrae le feature dei nodi per colorare i nodi (se disponibili)
     if graph.x is not None and graph.x.size(1) > 0:
-        node_colors = graph.x[:, 0].numpy()  # Prima feature come colore
+        # Sposta le feature dei nodi su CPU
+        node_colors = graph.x[:, 0].cpu().numpy()  # Prima feature come colore
     else:
         node_colors = None
     
@@ -34,12 +35,13 @@ def visualize_graph(graph, title="Graph Visualization"):
         sm = plt.cm.ScalarMappable(cmap=cm.viridis, norm=Normalize(vmin=min(node_colors), vmax=max(node_colors)))
         sm.set_array([])
         cbar = plt.colorbar(sm, ax=ax)
-        cbar.set_label("Energy")
+        cbar.set_label("Node Feature (First Dimension)")
     
     # Titolo e layout
     ax.set_title(title)
     plt.axis("off")
     plt.show()
+
 
 def visualize_all_graphs(graphs):
     """
