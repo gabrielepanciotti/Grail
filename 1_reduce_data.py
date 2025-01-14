@@ -51,8 +51,7 @@ for method, reducer in reduction_methods.items():
     if method == "Point Cloud":
         reduced_train, reduced_label_train, compression_ratio_train, reduction_time_train = reducer(train_data, train_labels)
         reduced_test, reduced_label_test, compression_ratio_test, reduction_time_test = reducer(test_data, test_labels)
-        np.savez_compressed(f"data_reduced/reduced_train_{method}_graph.npz", data=reduced_train, labels=reduced_label_train)
-        np.savez_compressed(f"data_reduced/reduced_test_{method}_graph.npz", data=reduced_test, labels=reduced_label_test)
+        
         # Normalizza i dati per Point Cloud
         reduced_train = normalize_data(reduced_train)
         reduced_test = normalize_data(reduced_test)
