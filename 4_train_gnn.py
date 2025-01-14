@@ -24,7 +24,7 @@ for method in reduction_methods:
     graphs_test = [graph.to(device) for graph in graphs_test]
 
     # Inizializzazione del modello
-    gnn_model = ParticleGNN(input_dim=graphs_train[0].x.shape[1], hidden_dim=64, output_dim=2).to(device)
+    gnn_model = ParticleGNN(input_dim=graphs_train[0].x.shape[1], hidden_dim=128, output_dim=2).to(device)
     gnn_optimizer = torch.optim.Adam(gnn_model.parameters(), lr=0.01)
 
     # Creazione dei DataLoader
