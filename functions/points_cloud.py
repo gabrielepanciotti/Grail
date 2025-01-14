@@ -171,7 +171,7 @@ def prepare_point_cloud_data(reduced_data, labels, batch_size=32, max_length=Non
     dataset = TensorDataset(tensor_data, tensor_labels)
     return DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
-def convert_point_cloud_to_graph(point_clouds, labels, k=20):
+def convert_point_cloud_to_graph(point_clouds, labels, k=10):
     """
     Converte le nuvole di punti in grafi per l'utilizzo con GNN.
 
@@ -185,7 +185,7 @@ def convert_point_cloud_to_graph(point_clouds, labels, k=20):
     """
     graphs = []
     for i, cloud in enumerate(point_clouds):
-        if cloud.shape[0] < 2:
+        if cloud.shape[0] < 10:
             # Salta nuvole di punti con meno di 2 punti (non ha senso creare un grafo)
             continue
 
