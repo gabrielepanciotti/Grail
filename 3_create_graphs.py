@@ -15,15 +15,21 @@ for method, converter_func in graph_converters.items():
     print(f"\nCaricamento dati ridotti per metodo: {method}")
 
     # Caricamento dei dati
-    data = np.load(f"reduced_{method}.npz", allow_pickle=True)
-    reduced_train = data["train"]
-    reduced_label_train = data["train_labels"]
-    reduced_test = data["test"]
-    reduced_label_test = data["test_labels"]
+    # Carica i dati ridotti
+    train_data_file = f"data_reduced/reduced_train_{method}.npz"
+    test_data_file = f"data_reduced/reduced_test_{method}.npz"
 
+    # Caricamento dei dati
+    train_data = np.load(train_data_file, allow_pickle=True)  # Abilita allow_pickle
+    test_data = np.load(test_data_file, allow_pickle=True)    # Abilita allow_pickle
+
+    reduced_train = train_data["data"]
+    train_labels = train_data["labels"]
+    reduced_test = test_data["data"]
+    test_labels = test_data["labels"]
     # 2. Creazione dei grafi
-    graphs_train = converter_func(reduced_train, reduced_label_train)
-    graphs_test = converter_func(reduced_test, reduced_label_test)
+    graphs_train = converter_func(reduced_train, train_labels)
+    graphs_test = converter_func(reduced_test, test_labels)
 
     # 3. Salva i grafi
     torch.save((graphs_train, graphs_test), f"graphs_{method}.pt")

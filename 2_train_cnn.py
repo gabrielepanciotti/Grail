@@ -20,8 +20,8 @@ for method, prepare_func in reduction_methods.items():
     print(f"\nCaricamento dati ridotti per metodo: {method}")
 
     # Carica i dati ridotti
-    train_data_file = f"reduced_train_{method}.npz"
-    test_data_file = f"reduced_test_{method}.npz"
+    train_data_file = f"data_reduced/reduced_train_{method}.npz"
+    test_data_file = f"data_reduced/reduced_test_{method}.npz"
 
     # Caricamento dei dati
     train_data = np.load(train_data_file, allow_pickle=True)  # Abilita allow_pickle
@@ -62,7 +62,7 @@ for method, prepare_func in reduction_methods.items():
     cnn_accuracy = evaluate_cnn(cnn_model, test_loader)
 
     # Salva il modello addestrato
-    cnn_model_file = f"cnn_model_{method}.pth"
+    cnn_model_file = f"cnn_model/cnn_model_{method}.pth"
     torch.save(cnn_model.state_dict(), cnn_model_file)
     print(f"Modello CNN salvato in: {cnn_model_file}")
 

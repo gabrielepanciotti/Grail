@@ -93,8 +93,8 @@ for method, reducer in reduction_methods.items():
         reduced_test = np.array(reduced_test, dtype=object)
 
     # Salva i risultati della riduzione in file separati
-    np.savez_compressed(f"reduced_train_{method}.npz", data=reduced_train, labels=reduced_label_train)
-    np.savez_compressed(f"reduced_test_{method}.npz", data=reduced_test, labels=reduced_label_test)
+    np.savez_compressed(f"data_reduced/reduced_train_{method}.npz", data=reduced_train, labels=reduced_label_train)
+    np.savez_compressed(f"data_reduced/reduced_test_{method}.npz", data=reduced_test, labels=reduced_label_test)
 
     # Registra i risultati per il confronto
     reduction_results.append({
