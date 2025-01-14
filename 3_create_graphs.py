@@ -16,8 +16,12 @@ for method, converter_func in graph_converters.items():
 
     # Caricamento dei dati
     # Carica i dati ridotti
-    train_data_file = f"data_reduced/reduced_train_{method}.npz"
-    test_data_file = f"data_reduced/reduced_test_{method}.npz"
+    if method == 'Point Cloud':
+        train_data_file = f"data_reduced/reduced_train_{method}_graph.npz"
+        test_data_file = f"data_reduced/reduced_test_{method}_graph.npz"
+    else:
+        train_data_file = f"data_reduced/reduced_train_{method}.npz"
+        test_data_file = f"data_reduced/reduced_test_{method}.npz"
 
     # Caricamento dei dati
     train_data = np.load(train_data_file, allow_pickle=True)  # Abilita allow_pickle
