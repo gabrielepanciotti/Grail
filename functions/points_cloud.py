@@ -138,11 +138,6 @@ def reduce_with_point_cloud(data, labels, threshold=0.1):
     # Calcola il tempo e il rapporto di compressione
     reduction_time = time.time() - start_time
     compression_ratio = reduced_size / original_size
-    # Normalizza i dati per Point Cloud
-    point_clouds = normalize_data(point_clouds)
-
-    # Trasferisci su device
-    point_clouds = [torch.tensor(cloud, dtype=torch.float32).to(device) for cloud in point_clouds]
 
     print(f"Point Cloud - Tempo: {reduction_time:.4f}s, Compressione: {compression_ratio:.4f}")
     return point_clouds, labels, compression_ratio, reduction_time
@@ -215,4 +210,9 @@ def normalize_data(reduced_data):
             # Troncamento se necessario
             padded_item = flattened_item[:max_length]
         normalized_data.append(padded_item)
-    return np.vstack(normalized_data)  # Usa np.vstack per unire array uniformi
+
+    # Usa np.vstack per unire array uniformi
+    point_clouds = np.vstack(normalized_data)
+    # Trasferisci su device
+    point_clouds = [torch.tensor(cloud, dtype=torch.float32).to(device) for cloud in point_clouds]
+    return point_clouds
