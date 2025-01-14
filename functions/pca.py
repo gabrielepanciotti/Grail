@@ -54,7 +54,7 @@ def prepare_pca_data(reduced_data, labels, batch_size=32):
     dataset = TensorDataset(tensor_data, tensor_labels)
     return DataLoader(dataset, batch_size=batch_size, shuffle=True)
 
-def convert_pca_to_graph(pca_data, labels, k=5):
+def convert_pca_to_graph(pca_data, labels, k=20):
     """
     Converte i dati ridotti con PCA in grafi per l'utilizzo con GNN.
 
