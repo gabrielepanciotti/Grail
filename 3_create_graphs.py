@@ -2,6 +2,8 @@ from config.imports import *
 from config.constants import *
 from functions import *
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 # Dizionario che mappa i nomi dei metodi di riduzione alla funzione di conversione in grafi
 graph_converters = {
     "Point Cloud": convert_point_cloud_to_graph,

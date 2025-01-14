@@ -3,6 +3,8 @@ from config.constants import *
 from functions import *
 from torch_geometric.loader import DataLoader  # Usa il DataLoader di torch_geometric
 
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 # Caricamento dei grafi
 reduction_methods = [
     "Point Cloud", 
